@@ -52,7 +52,7 @@ jobs:
 
       - name: Set GKE context
         run: |
-          kubectl config use-context cicd-sa-context  # yeh context match hona chahiye tere kubeconfig ke andar
+          kubectl config use-context gke_fluent-aileron-460117-t4_us-central1_flask-k8s
 
       - name: Deploy to GKE
         run: |
