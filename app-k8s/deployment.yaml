@@ -1,0 +1,22 @@
+# app-k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-weather
+  labels:
+    app: app-weather
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-weather
+  template:
+    metadata:
+      labels:
+        app: app-weather
+    spec:
+      containers:
+        - name: weather-app
+          image: docker.io/YOUR_DOCKER_USERNAME/weather-app:latest
+          ports:
+            - containerPort: 5000
