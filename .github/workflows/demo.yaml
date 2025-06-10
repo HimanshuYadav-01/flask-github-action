@@ -42,6 +42,14 @@ jobs:
         run: |
           sed -i "s|image: .*|image: docker.io/${{ secrets.DOCKER_USERNAME }}/weather-app:${{ needs.build.outputs.image_tag }}|g" app-k8s/deployment.yaml
 
+      - name: Install gcloud CLI & gke-gcloud-auth-plugin
+        run: |
+          curl -sSL https://dl.google.com/cloudsdk/channels/rapid/downloads/google-cloud-cli-464.0.0-linux-x86_64.tar.gz -o gcloud.tar.gz
+          tar -xf gcloud.tar.gz
+          ./google-cloud-sdk/install.sh -q
+          echo "$PWD/google-cloud-sdk/bin" >> $GITHUB_PATH
+          ./google-cloud-sdk/bin/gcloud components install gke-gcloud-auth-plugin --quiet
+
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
 
