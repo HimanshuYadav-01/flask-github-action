@@ -50,17 +50,15 @@ jobs:
           echo "$PWD/google-cloud-sdk/bin" >> $GITHUB_PATH
           ./google-cloud-sdk/bin/gcloud components install gke-gcloud-auth-plugin --quiet
 
+      - name: Authenticate to GCP using service account
+        run: |
+          echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | base64 -d > "${{ github.workspace }}/gcloud-key.json"
+          gcloud auth activate-service-account --key-file="${{ github.workspace }}/gcloud-key.json"
+          gcloud config set project fluent-aileron-460117-t4
+          gcloud container clusters get-credentials flask-k8s --region us-central1
+
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
-
-      - name: Setup kubeconfig
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG_K8S }}" | base64 -d > ~/.kube/config
-
-      - name: Set GKE context
-        run: |
-          kubectl config use-context gke_fluent-aileron-460117-t4_us-central1_flask-k8s
 
       - name: Deploy to GKE
         run: |
