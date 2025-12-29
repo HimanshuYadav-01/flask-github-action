@@ -23,7 +23,7 @@ def index():
                 "icon": data["weather"][0]["icon"],
             }
         else:
-            weather["error"] = "City not found"
+            weather["error"] = "City not foundddd"
     return render_template("index.html", weather=weather)
 
 if __name__ == "__main__":
